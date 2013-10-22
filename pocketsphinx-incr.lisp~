@@ -1,0 +1,15 @@
+;; Me incrementally developing the bindings for Pocketsphinx.
+
+(require 'asdf)
+(asdf:load-system :cffi)
+
+(defpackage :pocketsphinx
+  (:use :common-lisp
+	:cffi)
+  (:nicknames :ps))
+
+(in-package :pocketsphinx)
+
+(define-foreign-library libpocketsphinx
+  (:unix (:or "libpocketsphinx.so.1" "libpocketsphinx.so"))
+  (t (:default "libpocketsphinx")))

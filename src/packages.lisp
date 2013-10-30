@@ -5,7 +5,14 @@
 	#:alexandria)
   (:shadow #:defcfun
 	   #:foreign-funcall)
-  (:export #:defcfun))
+  (:export #:defcfun
+	   #:config-option
+	   #:read-option-name
+	   #:read-option-type
+	   #:read-option-value
+	   #:read-option-description
+	   #:option-name-string->keyword
+	   #:option-keyword->name-string))
 
 (cl:defpackage :pocketsphinx-sys
   (:nicknames #:ps-sys)

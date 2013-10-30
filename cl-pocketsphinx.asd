@@ -30,5 +30,4 @@
 							 "pocketsphinx-sys"
 							 "decoder"))))))
 
-(asdf:load-system :cl-pocketsphinx)
 

@@ -1,9 +1,15 @@
 (cl:in-package :ps)
 
+;; TODO: Fix this so it doesn't use initarg/forms, and directly
+;;       control it with `INITIALIZE-INSTANCE'.
 (defclass decoder ()
   ;; TODO: Document
    ; ps-decoder-t
-  ((decoder-ptr)))
+  ((decoder-ptr)
+   (config
+    :initarg :config
+    :initform (error "Must provide a `CONFIG'.")
+    :reader config)))
 
 (defmethod initialize-instance :after ((decoder decoder) &key config)
   ;; TODO: Need to test these finalizers.
@@ -14,10 +20,3 @@
     (setf (slot-value decoder 'decoder-ptr) decoder-ptr)
     (tg:finalize decoder (lambda () (ps-free decoder-ptr)))))
 
-(defgeneric config (decoder)
-  (:documentation "Return the current `CONFIG' object for the decoder
-  `DECODER'."))
-
-(defmethod config ((decoder decoder))
-  (with-slots (decoder-ptr) decoder
-    (make-instance 'config :config-ptr (ps-get-config decoder-ptr))))

@@ -1,0 +1,12 @@
+An Overview of the cl-pocketsphinx Architecture
+
+* Object Mapping Philosophy
+
+  The philosophy is to import all data structures into the Lisp
+  environment as classes, and to synchronize Lisp-based modifications
+  to them using :AFTER methods defined on SETF SLOT-VALUEs.
+
+  The reason to import them to the Lisp environment is to aid in
+  introspection, interactive development, and debugging.
+
+  A drawback of this design is

@@ -28,8 +28,8 @@
   (with-slots (decoder-ptr) decoder
     (let* ((score-ptr (cffi:foreign-alloc :int32))
 	   (uttid-ptr (cffi:foreign-alloc :string))
-	   (hyp-string (ps-get-hyp decoder-ptr score-ptr uttid-ptr))
-	   (hypothesis (when (not (cffi:null-pointer-p hyp-string))
+	   (hyp-string (ps-sys:ps-get-hyp decoder-ptr score-ptr uttid-ptr))
+	   (hypothesis (unless (null hyp-string)
 			 (make-instance 'hypothesis
 					:hyp-string hyp-string
 					:score (cffi:mem-ref score-ptr :int32)

@@ -12,7 +12,9 @@
 	   #:read-option-value
 	   #:read-option-description
 	   #:option-name-string->keyword
-	   #:option-keyword->name-string))
+	   #:option-keyword->name-string
+	   #:char-list->string
+	   #:keyword=))
 
 (cl:defpackage :pocketsphinx-sys
   (:nicknames #:ps-sys)
@@ -28,6 +30,7 @@
 	   #:arg-t
 	   #:file
 	   #:str-array
+	   #:arg-type
 	   
 	   #:fopen
 	   #:fclose
@@ -50,7 +53,10 @@
 	   #:ps-free
 	   #:ps-decode-raw
 	   #:ps-get-hyp
-	   #:ps-get-config))
+	   #:ps-get-config
+
+	   #:make-default-config-ptr
+	   #:make-default-config-pointer))
 
 (cl:defpackage :pocketsphinx
   (:nicknames #:ps)
@@ -64,6 +70,15 @@
 	   
 	   #:config
 	   #:option
+	   #:default-option
+	   #:user-option
+	   #:name
+	   #:value-type
+	   #:default-value
+	   #:value
+	   #:description
+	   #:synchronize-foreign-values
+	   #:make-default-config
 	   
 	   #:hypothesis
 	   #:hyp-string

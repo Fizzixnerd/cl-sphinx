@@ -16,6 +16,22 @@
 (defctype arg-t :pointer)
 (defctype file :pointer)
 (defctype str-array :pointer)
+(defctype anytype-t :pointer)
+
+(cffi:defcenum arg-type
+  ;; FIXME: I put the literal integers here because CFFI was
+  ;;        complaining about their type. This is neither ideal, nor
+  ;;        likely portable.
+  (:arg-required 1)
+  (:arg-integer 2)
+  (:arg-floating 4)
+  (:arg-string 8)
+  (:arg-boolean 16)
+  (:arg-string-list 32)
+  (:reqarg-integer 3)
+  (:reqarg-floating 5)
+  (:reqarg-string 9)
+  (:reqarg-boolean 17))
 
 ;; TESTED
 ;; C library functions
@@ -32,6 +48,13 @@
   (defn arg-t)
   (strict :boolean)
   &rest)
+
+(defcfun "cmd_ln_free_r" :int
+  (cmdln cmd-ln-t))
+
+(defcfun "cmd_ln_access_r" anytype-t
+  (cmdln cmd-ln-t)
+  (name :string))
 
 (defcfun "cmd_ln_str_r" :string
   (cmdln cmd-ln-t)
@@ -71,7 +94,7 @@
 (defun cmd-ln-set-boolean-r (cmdln name bool)
   (cmd-ln-set-int-r cmdln name (not (zerop bool))))
 
-(defcfun "cmd_ln_exists_r" :int
+(defcfun "cmd_ln_exists_r" :boolean
   (cmdln cmd-ln-t)
   (name :string))
 
@@ -102,3 +125,9 @@
 
 (defcfun "ps_get_config" cmd-ln-t
   (ps ps-decoder-t))
+
+(defun make-default-config-ptr ()
+  (cmd-ln-init (cffi:null-pointer)
+	       (ps-args)
+	       t
+	       :pointer (cffi:null-pointer)))

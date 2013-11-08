@@ -9,4 +9,6 @@ An Overview of the cl-pocketsphinx Architecture
   The reason to import them to the Lisp environment is to aid in
   introspection, interactive development, and debugging.
 
-  A drawback of this design is
+  A drawback of this design is that if cl-pocketsphinx is used as a
+  scripting layer for a C program: if C data changes after import,
+  this will not be reflected in the Lisp environment.

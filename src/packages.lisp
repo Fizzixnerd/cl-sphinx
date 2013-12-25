@@ -3,8 +3,10 @@
   (:use #:cl
 	#:cffi
 	#:alexandria)
+  ;; TODO: is foreign-funcall still shadowed?
   (:shadow #:defcfun
 	   #:foreign-funcall)
+  ;; TODO: organize this.
   (:export #:defcfun
 	   #:config-option
 	   #:read-option-name
@@ -16,24 +18,31 @@
 	   #:char-list->string
 	   #:keyword=))
 
-(cl:defpackage :pocketsphinx-sys
-  (:nicknames #:ps-sys)
+(cl:defpackage :pocketsphinx-posix
+  (:nicknames #:ps-posix)
   (:shadowing-import-from #:pocketsphinx-utils #:defcfun)
   (:use #:cl
 	#:pocketsphinx-utils
 	#:cffi)
-  (:export #:libpocketsphinx
-	   #:libsphinxbase
+  (:export #:file
+	   #:str-array
 
-	   #:ps-decoder-t
+	   #:fopen
+	   #:fclose))
+
+(cl:defpackage :sphinxbase-sys
+  ;; NOTE: can't use sb-sys as nickname because of SBCL using it.
+  (:nicknames #:sbase-sys)
+  (:shadowing-import-from #:pocketsphinx-utils #:defcfun)
+  (:use #:cl
+	#:pocketsphinx-utils
+	#:ps-posix
+	#:cffi)
+  (:export #:libsphinxbase
+
 	   #:cmd-ln-t
 	   #:arg-t
-	   #:file
-	   #:str-array
 	   #:arg-type
-	   
-	   #:fopen
-	   #:fclose
 
 	   #:cmd-ln-init
 	   #:cmd-ln-str-r
@@ -46,8 +55,20 @@
 	   #:cmd-ln-set-float-r
 	   #:cmd-ln-set-boolean-r
 	   #:cmd-ln-exists-r
-	   #:cmd-ln-print-help-r
+	   #:cmd-ln-print-help-r))
 
+(cl:defpackage :pocketsphinx-sys
+  (:nicknames #:ps-sys)
+  (:shadowing-import-from #:pocketsphinx-utils #:defcfun)
+  (:use #:cl
+	#:pocketsphinx-utils
+	#:ps-posix
+	#:sphinxbase-sys
+	#:cffi)
+  (:export #:libpocketsphinx
+
+	   #:ps-decoder-t
+	   
 	   #:ps-args
 	   #:ps-init
 	   #:ps-free

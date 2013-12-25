@@ -1,4 +1,4 @@
-(cl:in-package :sphinxbase-sys)
+(cl:in-package :sbase-sys)
 
 (define-foreign-library libsphinxbase
     (:unix (:or "libsphinxbase.so.1" "libsphinxbase.so"))
@@ -24,15 +24,6 @@
   (:reqarg-floating 5)
   (:reqarg-string 9)
   (:reqarg-boolean 17))
-
-;; TESTED
-;; C library functions
-(defcfun "fopen" file
-  (pathname :string)
-  (mode :string))
-
-(defcfun "fclose" :void
-  (filehandle file))
 
 ;; sphinxbase functions
 (defcfun "cmd_ln_init" cmd-ln-t
@@ -94,7 +85,6 @@
   (cmdln cmd-ln-t)
   (fp file)
   (defn arg-t))
-
 
 (defun make-default-config-ptr ()
   (cmd-ln-init (cffi:null-pointer)

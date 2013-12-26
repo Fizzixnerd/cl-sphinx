@@ -12,3 +12,27 @@ An Overview of the cl-pocketsphinx Architecture
   A drawback of this design is that if cl-pocketsphinx is used as a
   scripting layer for a C program: if C data changes after import,
   this will not be reflected in the Lisp environment.
+
+* C Bugs
+** Why are probability functions returning int32's?
+   Is this related to the ps_seg_prob API Suggestion below?  If so,
+   this is the only location that tells you what to do with the int,
+   and so this is a serious documentation bug.
+
+** pocketsphinx.h line 470
+   documentation bug in function ps_get_hyp_final: `@param
+   out_is_best_score Output' should be `@param out_is_final Output'
+
+** No explanation of what to do with various data structures
+   How do I tell when an interator is finished?  Does it return NULL?
+   Say so!
+
+** What the heck is a "path score"?
+   Is this the same thing as a posterior probability?  Do I have to do
+   logmath magic to this thing to get a useful number as well?  Why is
+   this so cryptic?
+
+* C API Suggestions
+** ps_seg_prob returns log posterior probability
+   Why? It gives a way to convert it to a useful floating point
+   version.  Why not just return that then?

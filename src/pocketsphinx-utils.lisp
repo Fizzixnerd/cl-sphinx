@@ -74,3 +74,12 @@ The form(s) before the located form."
   (and (keywordp object)
        (every #'keywordp objects)
        (every #'(lambda (obj) (string= obj object)) objects)))
+
+(defclass iterator ()
+  ())
+
+(defgeneric next (iterator)
+  (:documentation "Advance the iterator."))
+
+(defgeneric value (iterator)
+  (:documentation "Return the current value of the iterator."))

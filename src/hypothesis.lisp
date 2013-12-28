@@ -17,23 +17,16 @@
     :initarg :utterance-id
     :reader utterance-id)))
 
-(defgeneric best-hypothesis (decoder)
-  (:documentation "Return a `HYPOTHESIS' object containing the best
-  hypothesis at this point in decoding, or `NIL' if no hypothesis is
-  available."))
+(defgeneric hypothesis (hypothesis-source)
+  (:documentation "Return a `HYPOTHESIS' object, or `NIL' if no
+  hypothesis is available.  Valid `HYPOTHESIS-SOURCE's include
+  `DECODER's and `NBEST's"))
 
-(defmethod best-hypothesis ((decoder decoder))
-  ;; TODO: Make this exception safe with respect to the foreign allocs.
-  ;; TODO: Fix and make sure this doesn't break with null-pointers.
-  (with-slots (decoder-ptr) decoder
-    (let* ((score-ptr (cffi:foreign-alloc :int32))
-	   (uttid-ptr (cffi:foreign-alloc :string))
-	   (hyp-string (ps-sys:ps-get-hyp decoder-ptr score-ptr uttid-ptr))
-	   (hypothesis (unless (null hyp-string)
-			 (make-instance 'hypothesis
-					:hyp-string hyp-string
-					:score (cffi:mem-ref score-ptr :int32)
-					:utterance-id (cffi:mem-ref uttid-ptr :string)))))
-      (cffi:foreign-free score-ptr)
-      (cffi:foreign-free uttid-ptr)
-      hypothesis)))
+(defmacro with-hypothesis-pointers (score-ptr-name uttid-ptr-name &body body)
+  `(let* ((,score-ptr-name (cffi:foreign-alloc :int32))
+	 (,uttid-ptr-name (cffi:foreign-alloc :string))
+	 (dummy ,@body))
+     (cffi:foreign-free ,score-ptr-name)
+     (cffi:foreign-free ,uttid-ptr-name)
+     dummy))
+

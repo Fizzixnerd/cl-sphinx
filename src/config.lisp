@@ -1,11 +1,12 @@
 (cl:in-package :ps)
 
-;;;; CONSTANT DEFINITIONS ;;;;
+;;; CONSTANT DEFINITIONS ;;;
 ;; Path to pocketsphinx/include/cmdln_macro.h
+;; TODO: Hook into autotools or something...
 (defparameter +cmdln-macro-header-path+ "/usr/local/include/pocketsphinx/cmdln_macro.h")
 
-;;;; CLASS DEFINITIONS ;;;;
-;;; CONFIG
+;;; CLASS DEFINITIONS ;;;
+;; CONFIG
 (defclass config ()
   ;; TODO: Document
   ;; TODO: In the initialize-instance method, make sure to check for
@@ -19,7 +20,7 @@
     ;; This wont be a reader in the final, just making it quick
     :reader options-hash)))
 
-;;; OPTION
+;; OPTION
 (defclass option ()
   ((name
     :initarg :name)
@@ -42,8 +43,8 @@
     :initform :none
     :reader value)))
 
-;;;; OBJECT INITIALIZATION DEFINITIONS ;;;;
-;;; CONFIG
+;;; OBJECT INITIALIZATION DEFINITIONS ;;;
+;; CONFIG
 (defmethod initialize-instance :after ((config config) &key)
   ;; TODO: Need to fix the asserts so that they check the actual
   ;;       keyword arguments passed, not just the values of the
@@ -70,8 +71,8 @@ _exactly_ one of the `:INITARGS' `:CONFIG-PTR' or `:OPTIONS-HASH'.")
 	       "Initializing a `CONFIG' using `:INITARG' `:CONFIG-PTR'
        has not been implemented yet.")))))
 
-;;;; CLASS ACCESSORS ;;;;
-;;; OPTION
+;;; CLASS ACCESSORS ;;;
+;; OPTION
 (defmethod name ((option option) &key as-string)
   (with-slots (name) option
     (if as-string
@@ -82,8 +83,8 @@ _exactly_ one of the `:INITARGS' `:CONFIG-PTR' or `:OPTIONS-HASH'.")
 (defmethod value ((option option))
   (default-value option))
 
-;;;; LISP/C SYNCHRONIZATION GENERICS ;;;;
-;;; CONFIG
+;;; LISP/C SYNCHRONIZATION GENERICS ;;;
+;; CONFIG
 (defgeneric synchronize-foreign-values (config &rest name-keywords)
   (:documentation "Update all foreign values in the `CONFIG-PTR' slot
   of `CONFIG' indicated by `NAME-KEYWORDS' so that they are equivalent
@@ -111,7 +112,7 @@ _exactly_ one of the `:INITARGS' `:CONFIG-PTR' or `:OPTIONS-HASH'.")
 	   do
 	     (synchronize-foreign-value option config-ptr)))))
 
-;;; OPTION
+;; OPTION
 (defgeneric synchronize-foreign-value (option config-ptr &key)
   (:documentation "Update the foreign value in `CONFIG-PTR' to that in
   the corresponding given `OPTION'."))

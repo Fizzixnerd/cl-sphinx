@@ -8,7 +8,7 @@
 
 (defmethod hypothesis ((nbest nbest))
   (with-slots (nbest-ptr) nbest
-    (with-hypothesis-pointers 'score-ptr '%not-used%
+    (with-hypothesis-pointers score-ptr %not-used%
       (let* ((hypothesis-string (ps-sys:ps-nbest-hyp nbest-ptr score-ptr))
 	     (hypothesis (unless (null hypothesis-string)
 			   (make-instance 'hypothesis

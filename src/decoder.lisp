@@ -23,7 +23,7 @@
 
 (defmethod hypothesis ((decoder decoder))
   (with-slots (decoder-ptr) decoder
-    (with-hypothesis-pointers 'score-ptr 'uttid-ptr
+    (with-hypothesis-pointers score-ptr uttid-ptr
       (let* ((hypothesis-string (ps-sys:ps-get-hyp decoder-ptr score-ptr uttid-ptr))
 	     (hypothesis (unless (null hypothesis-string)
 			   (make-instance 'hypothesis

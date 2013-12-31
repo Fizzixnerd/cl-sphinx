@@ -52,7 +52,7 @@
 (defcfun "ps_process_raw" :int
   (ps ps-decoder-t)
   (data :pointer)
-  (n-samples :size-t)
+  (n-samples size-t)
   (no-search :int)
   (full-utt :int))
 
@@ -61,7 +61,7 @@
 (defcfun "ps_get_hyp" :string
   (ps ps-decoder-t)
   (out-best-score :pointer)
-  (out-uttid :str-array))
+  (out-uttid str-array))
 
 (defcfun "ps_get_prob" :int32
   (ps ps-decoder-t)

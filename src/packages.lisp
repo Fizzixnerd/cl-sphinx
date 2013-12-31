@@ -16,7 +16,11 @@
 	   #:option-name-string->keyword
 	   #:option-keyword->name-string
 	   #:char-list->string
-	   #:keyword=))
+	   #:keyword=
+	   #:iterator
+	   #:next
+	   #:value))
+
 
 (cl:defpackage :pocketsphinx-posix
   (:nicknames #:ps-posix)
@@ -26,6 +30,7 @@
 	#:cffi)
   (:export #:file
 	   #:str-array
+	   #:size-t
 
 	   #:fopen
 	   #:fclose))
@@ -72,9 +77,28 @@
 	   #:ps-args
 	   #:ps-init
 	   #:ps-free
+	   #:ps-start-utt
+	   #:ps-end-utt
+	   #:ps-get-uttid
 	   #:ps-decode-raw
+	   #:ps-process-raw
 	   #:ps-get-hyp
+	   #:ps-get-prob
 	   #:ps-get-config
+	   #:ps-get-lattice
+	   #:ps-seg-iter
+	   #:ps-seg-next
+	   #:ps-seg-word
+	   #:ps-seg-frames
+	   #:ps-seg-prob
+	   #:ps-seg-free
+	   #:ps-nbest
+	   #:ps-nbest-next
+	   #:ps-nbest-hyp
+	   #:ps-nbest-seg
+	   #:ps-nbest-free
+	   #:ps-get-utt-time
+	   #:ps-get-all-time
 
 	   #:make-default-config-ptr
 	   #:make-default-config-pointer))

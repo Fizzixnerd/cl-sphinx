@@ -120,18 +120,18 @@ _exactly_ one of the `:INITARGS' `:CONFIG-PTR' or `:OPTIONS-HASH'.")
 (defmethod synchronize-foreign-value ((option option) config-ptr &key)
   (let ((name-string (name option :as-string t)))
     (assert (cffi:pointerp config-ptr))
-    (assert (ps-sys:cmd-ln-exists-r config-ptr name-string))
+    (assert (sbase-sys:cmd-ln-exists-r config-ptr name-string))
     (with-accessors ((value-type value-type)
 		     (value value)) option
       (cond
 	((string= value-type 'string)
-	 (ps-sys:cmd-ln-set-str-r config-ptr name-string value))
+	 (sbase-sys:cmd-ln-set-str-r config-ptr name-string value))
 	((string= value-type 'integer)
-	 (ps-sys:cmd-ln-set-int-r config-ptr name-string value))
+	 (sbase-sys:cmd-ln-set-int-r config-ptr name-string value))
 	((string= value-type 'float)
-	 (ps-sys:cmd-ln-set-float-r config-ptr name-string value))
+	 (sbase-sys:cmd-ln-set-float-r config-ptr name-string value))
 	((string= value-type 'boolean)
-	 (ps-sys:cmd-ln-set-boolean-r config-ptr name-string value))
+	 (sbase-syscmd-ln-set-boolean-r config-ptr name-string value))
 	(t
 	 (assert nil
 		 (value-type)

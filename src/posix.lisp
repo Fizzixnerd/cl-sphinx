@@ -2,6 +2,7 @@
 
 (defctype file :pointer)
 (defctype str-array :pointer)
+(defctype size-t :ullong)
 
 ;; TESTED
 ;; C library functions
